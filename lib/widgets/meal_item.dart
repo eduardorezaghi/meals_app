@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
@@ -7,6 +8,19 @@ class MealItem extends StatelessWidget {
     super.key,
     required this.meal,
   });
+
+
+  String get capitalizedComplexity {
+    return _capitalize(meal.complexity.toString().split('.').last);
+  }
+
+  String get capitalizedAffordability {
+    return _capitalize(meal.affordability.toString().split('.').last);
+  }
+
+  String _capitalize(String s) {
+    return s[0].toUpperCase() + s.substring(1);
+  }
 
   final Meal meal;
 
@@ -55,7 +69,22 @@ class MealItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      MealItemTrait(
+                        icon: Icons.schedule,
+                        label: '${meal.duration} min',
+                      ),
+                      const SizedBox(width: 12),
+                      MealItemTrait(
+                        icon: Icons.work,
+                        label: capitalizedComplexity,
+                      ),
+                      const SizedBox(width: 12),
+                      MealItemTrait(
+                        icon: Icons.attach_money,
+                        label: capitalizedAffordability,
+                      ),
                     ],
                   ),
                 ],

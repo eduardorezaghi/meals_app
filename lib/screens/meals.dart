@@ -39,9 +39,8 @@ class MealsScreen extends StatelessWidget {
       );
     } else {
       content = ListView.builder(
-        itemBuilder: (context, index) => MealItem(meal: 
-          meals[index],
-        ),
+        itemBuilder: (context, index) => 
+        MealItem(meal: meals[index]),
         itemCount: meals.length,
       );
     }
