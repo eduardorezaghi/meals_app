@@ -16,20 +16,25 @@ class MealsScreen extends StatelessWidget {
     Widget content;
 
     if (meals.isEmpty) {
-      content = Column(
-        children: [
-          Text('No meals found, please check your filters!',
-              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  )),
-          const SizedBox(height: 20),
-          Text(
-            'You can adjust your filters in the settings.',
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-          )
-        ],
+      content = Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('No meals found, please check your filters!',
+            style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
+              fontSize: 20,
+            )),
+            const SizedBox(height: 20),
+            Text(
+              'You can adjust your filters in the settings.',
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 16,
+              )
+            )
+          ],
+        ),
       );
     } else {
       content = ListView.builder(

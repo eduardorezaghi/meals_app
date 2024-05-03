@@ -8,7 +8,13 @@ final theme = ThemeData(
     brightness: Brightness.dark,
     seedColor: const Color.fromARGB(255, 131, 57, 0),
   ),
-  textTheme: GoogleFonts.latoTextTheme(),
+  textTheme: GoogleFonts.latoTextTheme(
+    const TextTheme(
+      headlineLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      headlineSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    ),
+  ),
 );
 
 void main() {
@@ -22,7 +28,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: CategoriesScreen(),
+      home: const CategoriesScreen(),
     );
   }
 }
