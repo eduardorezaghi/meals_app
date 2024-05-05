@@ -5,11 +5,11 @@ import 'package:meals_app/widgets/meal_item.dart';
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
     super.key,
-    required this.title,
+    this.title,
     required this.meals,
   });
 
-  final String title;
+  final String? title;
   final List<Meal> meals;
 
   @override
@@ -45,9 +45,15 @@ class MealsScreen extends StatelessWidget {
       );
     }
 
+    // If this screen is used as a standalone screen, show the scaffold
+    // without an app bar. Otherwise, show the scaffold with an app bar.
+    if (title == null) {
+      return Scaffold(body: content);
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: Center(child: content),
     );
