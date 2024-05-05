@@ -53,7 +53,7 @@ class _AppState extends State<App> {
       home: Tabs(
         pages: 
           [
-            CategoriesScreen(onToggleFavorite: _toggleFavorite, favoriteMeals: _favoriteMeals),
+            CategoriesScreen(onToggleFavorite: _toggleFavorite),
             MealsScreen(meals: _favoriteMeals, onToggleFavorite: _toggleFavorite),
           ],
       )
