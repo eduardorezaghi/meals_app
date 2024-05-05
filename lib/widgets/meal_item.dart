@@ -8,8 +8,10 @@ class MealItem extends StatelessWidget {
   const MealItem({
     super.key,
     required this.meal,
+    required this.onToggleFavorite,
   });
 
+  final void Function(Meal meal) onToggleFavorite;
 
   String get capitalizedComplexity {
     return _capitalize(meal.complexity.toString().split('.').last);
@@ -38,7 +40,7 @@ class MealItem extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => MealDetails(meal: meal),
+                builder: (context) => MealDetails(meal: meal, onToggleFavorite: onToggleFavorite),
               ),
             );
           },

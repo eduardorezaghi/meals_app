@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/tabs.dart';
@@ -23,18 +24,37 @@ void main() {
   runApp(const App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  // Favorite meals
+  List<Meal> _favoriteMeals = [];
+
+  void _toggleFavorite(Meal meal) {
+    final mealExist = _favoriteMeals.contains(meal);
+
+    if (mealExist) {
+      setState(() => _favoriteMeals.remove(meal));
+    } else {
+      setState(() => _favoriteMeals.add(meal));
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: const Tabs(
+      home: Tabs(
         pages: 
           [
-            CategoriesScreen(),
-            MealsScreen(meals: []),
+            CategoriesScreen(onToggleFavorite: _toggleFavorite, favoriteMeals: _favoriteMeals),
+            MealsScreen(meals: _favoriteMeals, onToggleFavorite: _toggleFavorite),
           ],
       )
     );

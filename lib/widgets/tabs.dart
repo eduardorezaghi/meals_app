@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 
 class Tabs extends StatefulWidget {
@@ -46,7 +47,8 @@ class _TabsState extends State<Tabs> {
         },
         currentIndex: _currentIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.set_meal), label: 'Categories'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.set_meal), label: 'Categories'),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favorites'),
         ],
       ),
