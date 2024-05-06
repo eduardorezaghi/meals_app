@@ -31,19 +31,29 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 2,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: GridView(
+            // Use SliverGridDelegateWithFixedCrossAxisCount for a grid with a 
+            // fixed number of items in the cross axis.
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+            ),
+            children: <Widget>[
+              // Use spread operator to add all items from the list to the grid.
+              // It:
+              // - generates a list of widgets from the list of available categories
+              // - avoids the need to use a for loop to iterate over the list
+              // - makes the code more readable
+              ...availableCategories.map((category) => CategoryGridItem(
+                category: category,
+                onPressed: () => selectCategory(context, category),
+                )),
+            ],
           ),
-          children: <Widget>[
-            ...availableCategories.map((category) => CategoryGridItem(
-              category: category,
-              onPressed: () => selectCategory(context, category),
-              )),
-          ],
-        );
+    );
   }
 }
