@@ -10,7 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 
-import 'package:meals_app/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

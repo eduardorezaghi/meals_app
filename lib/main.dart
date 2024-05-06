@@ -33,7 +33,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   // Favorite meals
-  List<Meal> _favoriteMeals = [];
+  final List<Meal> _favoriteMeals = [];
 
   void _toggleFavorite(Meal meal) {
     final mealExist = _favoriteMeals.contains(meal);
