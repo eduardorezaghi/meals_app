@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
     super.key,
+    required this.onNavigate,
   });
+
+  final void Function(String identifier) onNavigate;
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +30,21 @@ class MainDrawer extends StatelessWidget {
                   const SizedBox(width: 20),
                   Text(
                     'Cooking Up!',
-                    style: Theme.of(context).textTheme.headlineLarge!
-                       .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary),
                   ),
                 ],
               )),
           ListTile(
             leading: const Icon(Icons.shop),
-            title: Text('Menu',
+            title: Text(
+              'Menu',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
-             ),
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
             ),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/');
+              onNavigate('meals');
             },
           ),
           const Divider(),
@@ -49,11 +53,12 @@ class MainDrawer extends StatelessWidget {
             title: Text(
               'Favorites',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
             ),
             onTap: () {
               // TODO: Handle with GoRouter and Riverpod later.
+              onNavigate('favorites');
             },
           ),
           const Divider(),
@@ -62,11 +67,12 @@ class MainDrawer extends StatelessWidget {
             title: Text(
               'Filters',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
             ),
             onTap: () {
               // TODO: Handle with GoRouter and Riverpod later.
+              onNavigate('filters');
             },
           ),
         ],

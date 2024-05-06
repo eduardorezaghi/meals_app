@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
 class Tabs extends StatefulWidget {
@@ -33,11 +34,30 @@ class _TabsState extends State<Tabs> {
         break;
     }
 
+    void _setScreen(String identifier) {
+      Navigator.of(context).pop();
+      switch (identifier) {
+        case 'filters':
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => FiltersScreen(
+                onSave: () {},
+              ),
+            ),
+          );
+          break;
+        default:
+          // Close the drawer on any other navigation
+          Navigator.of(context).pop();
+          break;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: _currentTitle,
       ),
-      drawer: const MainDrawer(),
+      drawer: MainDrawer(onNavigate: (identifier) => _setScreen(identifier)),
       body: _currentTab,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
