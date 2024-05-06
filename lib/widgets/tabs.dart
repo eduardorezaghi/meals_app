@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
+import 'package:meals_app/widgets/main_drawer.dart';
 
 class Tabs extends StatefulWidget {
   const Tabs({
@@ -38,6 +39,7 @@ class _TabsState extends State<Tabs> {
       appBar: AppBar(
         title: _currentTitle,
       ),
+      drawer: const MainDrawer(),
       body: _currentTab,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
