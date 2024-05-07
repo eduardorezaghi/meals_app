@@ -10,11 +10,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 
-
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(CategoriesScreen(onToggleFavorite: (Meal m){}));
+    await tester.pumpWidget(CategoriesScreen(
+      onToggleFavorite: (Meal m) {},
+      availableMeals: [],
+    ));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

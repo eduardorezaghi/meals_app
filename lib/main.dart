@@ -32,31 +32,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  // Favorite meals
-  final List<Meal> _favoriteMeals = [];
-
-  void _toggleFavorite(Meal meal) {
-    final mealExist = _favoriteMeals.contains(meal);
-
-    if (mealExist) {
-      setState(() => _favoriteMeals.remove(meal));
-    } else {
-      setState(() => _favoriteMeals.add(meal));
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: Tabs(
-        pages: 
-          [
-            CategoriesScreen(onToggleFavorite: _toggleFavorite),
-            MealsScreen(meals: _favoriteMeals, onToggleFavorite: _toggleFavorite),
-          ],
-      )
+      home: const Tabs()
     );
   }
 }
