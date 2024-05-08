@@ -4,6 +4,7 @@ import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/tabs.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -21,7 +22,9 @@ final theme = ThemeData(
 );
 
 void main() {
-  runApp(const App());
+  // Wrap the app with ProviderScope.
+  // This will allow the app to access the providers.
+  runApp(const ProviderScope(child: const App()));
 }
 
 class App extends StatefulWidget {

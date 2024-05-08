@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:meals_app/providers/meals_provider.dart';
 
 const kInitialFilters = {
   FilterType.glutenFree: false,
@@ -13,21 +15,20 @@ const kInitialFilters = {
   FilterType.lactoseFree: false,
 };
 
-class Tabs extends StatefulWidget {
+class Tabs extends ConsumerStatefulWidget {
   const Tabs({
     super.key,
   });
 
   @override
-  State<Tabs> createState() => _TabsState();
+  ConsumerState<Tabs> createState() => _TabsState();
 }
 
-class _TabsState extends State<Tabs> {
+class _TabsState extends ConsumerState<Tabs> {
   // States
   int _currentIndex = 0;
   Map<FilterType, bool> _filters = kInitialFilters;
   final List<Meal> _favoriteMeals = [];
-
 
   void _toggleFavorite(Meal meal) {
     final mealExist = _favoriteMeals.contains(meal);
@@ -61,14 +62,19 @@ class _TabsState extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
+    // Use a "ref" to access the provider.
+    // A ref is a reference to a provider that allows reading the state of a provider,
+    // that is, the shared state that the provider manages.
+    final meals = ref.watch(mealsProvider);
+
     Widget _currentTab = CategoriesScreen(
       onToggleFavorite: _toggleFavorite,
-      availableMeals: dummyMeals,
+      availableMeals: meals,
     );
 
     Text _currentTitle = const Text('Categories');
 
-    final availableMeals = dummyMeals.where((meal) {
+    final availableMeals = meals.where((meal) {
       if (_filters[FilterType.glutenFree]! && !meal.isGlutenFree) {
         return false;
       }
