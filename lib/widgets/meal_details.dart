@@ -19,6 +19,7 @@ class MealDetails extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.star_border),
+            isSelected: ref.watch(favoriteProvider).contains(meal),
             selectedIcon: const Icon(Icons.star),
             onPressed: () {
               // That's how you can read the provider and call the `toggleFavorite` method.
