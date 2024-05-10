@@ -1,38 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/favorites_provider.dart';
 
-class MealDetails extends StatefulWidget {
+class MealDetails extends ConsumerWidget {
   const MealDetails({
     super.key,
     required this.meal,
-    required this.onToggleFavorite,
   });
 
   final Meal meal;
-  final void Function(Meal meal) onToggleFavorite;
 
   @override
-  State<MealDetails> createState() => _MealDetailsState();
-}
-
-class _MealDetailsState extends State<MealDetails> {
-
-  var _mealFavorited = false;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.meal.title),
+        title: Text(meal.title),
         actions: [
           IconButton(
             icon: const Icon(Icons.star_border),
             selectedIcon: const Icon(Icons.star),
-            isSelected: _mealFavorited,
             onPressed: () {
-              widget.onToggleFavorite(widget.meal);
-              setState(() => _mealFavorited = !_mealFavorited);
-            }
+              // That's how you can read the provider and call the `toggleFavorite` method.
+              // The state is NOT on the widget, it's on the provider.
+              ref.read(favoriteProvider.notifier).toggleFavorite(meal);
+            },
           ),
         ],
       ),
@@ -40,7 +32,7 @@ class _MealDetailsState extends State<MealDetails> {
         ListView(
           children: [
             Image.network(
-              widget.meal.imageUrl,
+              meal.imageUrl,
               fit: BoxFit.cover,
               height: 250,
               width: double.infinity,
@@ -55,7 +47,7 @@ class _MealDetailsState extends State<MealDetails> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 14),
-            ...widget.meal.ingredients.map((ingredient) => ListTile(
+            ...meal.ingredients.map((ingredient) => ListTile(
                 dense: true,
                 visualDensity: const VisualDensity(vertical: -4),
                 title: Text(
@@ -74,7 +66,7 @@ class _MealDetailsState extends State<MealDetails> {
                   ),
               textAlign: TextAlign.center,
             ),
-            ...widget.meal.steps.asMap().entries.map((entry) => ListTile(
+            ...meal.steps.asMap().entries.map((entry) => ListTile(
                   dense: true,
                   visualDensity: const VisualDensity(vertical: -4),
                   title: Text(

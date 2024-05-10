@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/favorites_provider.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:meals_app/providers/meals_provider.dart';
 
 const kInitialFilters = {
@@ -28,17 +27,6 @@ class _TabsState extends ConsumerState<Tabs> {
   // States
   int _currentIndex = 0;
   Map<FilterType, bool> _filters = kInitialFilters;
-  final List<Meal> _favoriteMeals = [];
-
-  void _toggleFavorite(Meal meal) {
-    final mealExist = _favoriteMeals.contains(meal);
-
-    if (mealExist) {
-      setState(() => _favoriteMeals.remove(meal));
-    } else {
-      setState(() => _favoriteMeals.add(meal));
-    }
-  }
 
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
@@ -67,12 +55,11 @@ class _TabsState extends ConsumerState<Tabs> {
     // that is, the shared state that the provider manages.
     final meals = ref.watch(mealsProvider);
 
-    Widget _currentTab = CategoriesScreen(
-      onToggleFavorite: _toggleFavorite,
+    Widget currentTab = CategoriesScreen(
       availableMeals: meals,
     );
 
-    Text _currentTitle = const Text('Categories');
+    Text currentTitle = const Text('Categories');
 
     final availableMeals = meals.where((meal) {
       if (_filters[FilterType.glutenFree]! && !meal.isGlutenFree) {
@@ -92,20 +79,19 @@ class _TabsState extends ConsumerState<Tabs> {
 
     switch (_currentIndex) {
       case 1:
-        _currentTitle = const Text('Favorites');
-        _currentTab = MealsScreen(
-          meals: _favoriteMeals,
-          onToggleFavorite: _toggleFavorite,
+        final favoriteMeals = ref.watch(favoriteProvider);
+        currentTitle = const Text('Favorites');
+        currentTab = MealsScreen(
+          meals: favoriteMeals,
         );
         break;
       case 2:
-        _currentTitle = const Text('Profile');
-        _currentTab = const Center(child: Text('Profile'));
+        currentTitle = const Text('Profile');
+        currentTab = const Center(child: Text('Profile'));
         break;
       default:
-        _currentTitle = const Text('Categories');
-        _currentTab = CategoriesScreen(
-          onToggleFavorite: _toggleFavorite,
+        currentTitle = const Text('Categories');
+        currentTab = CategoriesScreen(
           availableMeals: availableMeals,
         );
         break;
@@ -113,10 +99,10 @@ class _TabsState extends ConsumerState<Tabs> {
 
     return Scaffold(
       appBar: AppBar(
-        title: _currentTitle,
+        title: currentTitle,
       ),
       drawer: MainDrawer(onNavigate: (identifier) => _setScreen(identifier)),
-      body: _currentTab,
+      body: currentTab,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {
