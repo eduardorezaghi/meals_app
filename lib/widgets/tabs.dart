@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/providers/favorites_provider.dart';
+import 'package:meals_app/providers/filters_provider.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals_app/providers/meals_provider.dart';
-
-const kInitialFilters = {
-  FilterType.glutenFree: false,
-  FilterType.vegetarian: false,
-  FilterType.vegan: false,
-  FilterType.lactoseFree: false,
-};
-
 class Tabs extends ConsumerStatefulWidget {
   const Tabs({
     super.key,
@@ -26,20 +18,16 @@ class Tabs extends ConsumerStatefulWidget {
 class _TabsState extends ConsumerState<Tabs> {
   // States
   int _currentIndex = 0;
-  Map<FilterType, bool> _filters = kInitialFilters;
 
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
     switch (identifier) {
       case 'filters':
-        await Navigator.of(context)
-            .push<Map<FilterType, bool>>(
-              MaterialPageRoute(
-                builder: (context) => FiltersScreen(filters: _filters),
-              ),
-            )
-            .then(
-                (value) => setState(() => _filters = value ?? kInitialFilters));
+        await Navigator.of(context).push<Map<Filter, bool>>(
+          MaterialPageRoute(
+            builder: (context) => FiltersScreen(),
+          ),
+        );
         break;
       default:
         // Close the drawer on any other navigation
@@ -53,29 +41,13 @@ class _TabsState extends ConsumerState<Tabs> {
     // Use a "ref" to access the provider.
     // A ref is a reference to a provider that allows reading the state of a provider,
     // that is, the shared state that the provider manages.
-    final meals = ref.watch(mealsProvider);
+    final availableMeals = ref.watch(filteredMealsProvider);
 
     Widget currentTab = CategoriesScreen(
-      availableMeals: meals,
+      availableMeals: availableMeals
     );
 
     Text currentTitle = const Text('Categories');
-
-    final availableMeals = meals.where((meal) {
-      if (_filters[FilterType.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-      if (_filters[FilterType.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-      if (_filters[FilterType.vegan]! && !meal.isVegan) {
-        return false;
-      }
-      if (_filters[FilterType.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-      return true;
-    }).toList();
 
     switch (_currentIndex) {
       case 1:
