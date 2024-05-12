@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/widgets/meal_details.dart';
 import 'package:meals_app/widgets/meal_item_trait.dart';
@@ -44,16 +45,19 @@ class MealItem extends StatelessWidget {
           },
           child: Stack(
             children: [
-              FadeInImage(
-                // This is a placeholder for the image.
-                // The image will be loaded from the network, thus we need to show a placeholder
-                // so things don't look weird when the image is loading.
-                placeholder: MemoryImage(kTransparentImage),
-                // This is the image loaded from the network.
-                image: NetworkImage(meal.imageUrl),
-                fit: BoxFit.cover,
-                height: 250,
-                width: double.infinity,
+              Hero(
+                tag: meal.id,
+                child: FadeInImage(
+                  // This is a placeholder for the image.
+                  // The image will be loaded from the network, thus we need to show a placeholder
+                  // so things don't look weird when the image is loading.
+                  placeholder: MemoryImage(kTransparentImage),
+                  // This is the image loaded from the network.
+                  image: NetworkImage(meal.imageUrl),
+                  fit: BoxFit.cover,
+                  height: 250,
+                  width: double.infinity,
+                ),
               ),
               Positioned(
                 bottom: 0,

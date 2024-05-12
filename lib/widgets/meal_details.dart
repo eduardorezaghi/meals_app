@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/providers/favorites_provider.dart';
@@ -32,11 +33,14 @@ class MealDetails extends ConsumerWidget {
       body: Stack(children: [
         ListView(
           children: [
-            Image.network(
-              meal.imageUrl,
-              fit: BoxFit.cover,
-              height: 250,
-              width: double.infinity,
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                fit: BoxFit.cover,
+                height: 250,
+                width: double.infinity,
+              ),
             ),
             const SizedBox(height: 14),
             Text(
